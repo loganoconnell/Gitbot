@@ -11,12 +11,13 @@ accessToken = ""
 accessTokenSecret = ""
 api = Twython(apiKey, apiSecret, accessToken, accessTokenSecret)
 
-for repo in g.get_user().get_repos():
-	repos.append(repo.name)
+def updateRepos():
+	for repo in g.get_user().get_repos():
+		repos.append(repo.name)
 
-print "Repos:"
-for repo in repos:
-	print " - " + repo
+	print "Repos:"
+	for repo in repos:
+		print " - " + repo
 
 def tweet(name):
 	tweetStr = "I published a new GitHub repo: " + name + "\nhttps://github.com/loganoconnell/" + name
@@ -26,9 +27,12 @@ def tweet(name):
 	print "Tweeted: " + tweetStr
 
 while True:
+	repos = []
+	updateRepos()
+
 	for repo in g.get_user().get_repos():
 		if (repo.name not in repos):
 			tweet(repo.name)
-			
+	
 	print "Sleeping..."
 	sleep(300)
